@@ -175,7 +175,13 @@ module Capybara
       # @return [Capybara::Node::Element]  The option element selected
       def select(value = nil, from: nil, **options)
         scope = from ? find(:select, from, options) : self
-        scope.find(:option, value, options).select_option
+        if scope.tag_name == "input"
+          datalist = find(:xpath, XPath.descendant(:datalist)[XPath.attr(:id) == scope[:list]], visible: false)
+          option = datalist.find(:xpath, XPath.descendant(:option)[XPath.attr(:value) == value], visible: false)
+          scope.set(option.value)
+        else
+          scope.find(:option, value, options).select_option
+        end
       end
 
       ##

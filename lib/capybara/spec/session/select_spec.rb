@@ -53,6 +53,12 @@ Capybara::SpecHelper.spec "#select" do
     expect(extract_results(@session)['locale']).to eq('fi')
   end
 
+  it "should select an option from an input using a datalist" do
+    @session.select("Audi", from: 'manufacturer')
+    @session.click_button('awesome')
+    expect(extract_results(@session)['manufacturer']).to eq('Audi')
+  end
+
   it "should select an option without giving a select box" do
     @session.select("Swedish")
     @session.click_button('awesome')

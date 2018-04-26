@@ -365,7 +365,7 @@ Capybara.add_selector(:select) do
   label "select box"
 
   xpath do |locator, **options|
-    xpath = XPath.descendant(:select)
+    xpath = XPath.descendant(:select) + XPath.descendant(:input)[XPath.attr(:list)]
     locate_field(xpath, locator, options)
   end
 
